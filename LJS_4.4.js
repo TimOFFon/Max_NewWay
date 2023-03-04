@@ -137,12 +137,14 @@
 
                 в)"ref" содержит в значении "this"
                 который вычисляется в момент вызова,
-                в данный момент в объекте "user"
+                в данный момент в объекте "user",
+                но "this" не вызывается через
+                точку и не возвращается методом,
+                он содержит unefined от функции
+                "makeUser"
 
-                c) Из вычисленного объекта "user"
-                инициируется хост в ключ "name",
-                в котором храниться значение
-                "John"
+
+                c) undefined.name = ОШИБКА
 
        */
 }
@@ -235,5 +237,5 @@ ladder.up().up().down().showStep().down().showStep();
         }
       };
 
-    //   ladder.up().up().down().showStep().down().showStep();
-}
+    //   
+}ladder.up().up().down().showStep().down().showStep();
