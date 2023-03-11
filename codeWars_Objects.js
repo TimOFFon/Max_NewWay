@@ -4,12 +4,20 @@
 //=====================================================
 //=====================================================
 
+
+
+
+//=======================================================
+//=======================================================
+//                    первая
+//=======================================================
+//=======================================================
 /*
 https://www.codewars.com/kata/5aa1ca484a6b34f9a000011e/train/javascript
 
 6 kyu
 
-                  Object depth
+                            Object depth   (не решил)
 
 
 Напишите функцию JavaScript, которая возвращает глубину 
@@ -115,10 +123,16 @@ function depth(obj) {
 
 
 
+
+//=======================================================
+//=======================================================
+//                    вторая
+//=======================================================
+//=======================================================
 /*
 https://www.codewars.com/kata/596cf5b0e1665a2d02000007/train/javascript
 
-Merged Objects.
+                            Merged Objects.  (решил)
 
 В этом ката вам будет предоставлен массив объектов 
 a=[{obj1},{obj2},...]. Вы вернете объединенные объекты. 
@@ -189,10 +203,16 @@ function objConcat (objects) {
 
 
 
+
+//=======================================================
+//=======================================================
+//                    третья
+//=======================================================
+//=======================================================
 /*
 https://www.codewars.com/kata/560cd60f215a80dc00000049/train/javascript
 
-                       Expressive Objects
+                       Expressive Objects (не решенная)
 
 Функция 
 
@@ -241,148 +261,78 @@ var right = {
 evaluate(left, 'add', right) === -467.0083333333333
 
 */
-//===================================================
-//         не понимаю условия...
-//===================================================
+var op = 'add';
+
+var left = {
+    'multiply': {
+        'add': [1, 2, 3, 4, 5],
+        'subtract': [5, 6, 7, 8, 9],
+        'multiply': [1, 2, 3, 4, 5],
+        'divide': [1, 2, 3, 4, 5]
+    }
+};
+
+var right = {
+    'subtract': {
+        'add': [1, 2, 3, 4, 5],
+        'subtract': [1, 2, 3, 4, 5],
+        'multiply': [1, 2, 3, 4, 5],
+        'divide': [1, 2, 3, 4, 5]
+    }
+};
+
+function evaluate(left, op, right) {
+    function blackBox(obj) {
+        let rootKey = Object.keys(obj);
+        let insideKeys = obj[rootKey];
+        let arrRes = [];
+        let objResult = null;
+
+    function mathCombain(key, arr) {
+        let result = null;
+        if(key === 'add') result = arr.reduce((acc, curr) => (acc) + (curr), 0);
+        if(key === 'subtract') result = arr.reduce((acc, curr) => (acc) - (curr));
+        if(key === 'multiply') result = arr.reduce((acc, curr) => (acc) * (curr));
+        if(key === 'divide') result = arr.reduce((acc, curr) => (acc) / (curr));
+        return result;
+    }
+
+    for(let key in insideKeys) {
+        let elem = mathCombain(key, insideKeys[key])
+        arrRes.push(elem);
+    }
+
+    let strKey = JSON.stringify(rootKey).match(/\w+/g);
+      return objResult = mathCombain(strKey[0], arrRes);
+    }
+    
+    let leftObj = blackBox(left);
+    let rightObj = blackBox(right);
+    
+    function finishComp(L, O, R) {
+        if(O === "add") return (L) + (R);
+        if(O === "subtract") return (L) - (R);
+        if(O === "multiply") return (L) * (R);
+        if(O === "divide") return (L) / (R);
+    }
+    
+    let finishResult = finishComp(leftObj, op, rightObj);
+
+    return finishResult;
+}
+// evaluate(left, op, right);
 
 
 
-
-/*
-https://www.codewars.com/kata/552fc8d81b59b6b4820000a4/train/javascript
-
-                    Arrays are Objects
-
-    В Javascript массивы — это особый вид объектов. 
-    Не верите мне? Попробуй это...
-
-typeof []; // "object"
-Это позволяет нам делать с массивами довольно интересные 
-вещи, о которых вы, возможно, даже не знаете, например, 
-добавлять методы. 
-Это в основном то, как работает jQuery 
-(возвращается просто массив со всеми методами jQuery).
-
-Должна быть функция-конструктор с именем «magicArray», 
-которая возвращает массив, содержащий все аргументы, 
-с присоединенными методами в fn. 
-Если первый аргумент является массивом, 
-он должен расширить этот массив с помощью методов.
-
-Ваша задача, если вы решите принять это, состоит в том, 
-чтобы создать объект с именем «fn» и добавить к нему 
-следующие методы (мы можем сделать большую часть 
-    этого нативно, но просто для доказательства):
-
-
-getFiltered: function(predicate) — возвращает все элементы
- в массиве, которые передают предикат в magicArray.
-
-getRejected: function(predicate) — возвращает все элементы
- в массиве, которые не соответствуют предикату в magicArray.
-
-getSplit: function(predicate) — возвращает объект со 
-  свойством «pass», содержащим все элементы, которые соответствуют предикату, и свойством «fail», содержащим все элементы, которые не прошли (в magicArray для каждого).
-
-count: function() - Возвращает длину массива.
-
-double: function() — Добавляет все элементы массива к 
-   себе в том же порядке. Верните массив снова со всеми 
-   методами. Это должно изменить значения исходного 
-   массива.
-
-умножить: функция (n) - Умножить все элементы в массиве 
-   на n (это будет вызываться только с допустимыми 
-    числами). Вернуть массив со всеми методами. 
-    Это должно изменить значения исходного массива.
-
-first: function() - Возвращает массив со всеми методами, 
-    содержащий только первый элемент
-
-last: function() - Возвращает массив со всеми методами, 
-                    содержащий только последний элемент
-
-eq: function(n) — возвращает массив со всеми методами, 
-     содержащий только элемент eq (например, 
-        0 возвращает первый, 1 — второй и т. д.). 
-        Как и в jQuery.
-
-
-Например:
-
-var testArray = magicArray(1, 2, 3, "a", "b", "c"), 
-// [1, 2, 3, "a", "b", "c"]
-
-    testArrayAlt = magicArray([1, 2, 3, "a", "b", "c"]); 
-    // [1, 2, 3, "a", "b", "c"]
-
-// getFiltered
-var filtered = testArray.getFiltered(function(a) 
-{ return typeof a === "string"; }); // ["a", "b", "c"];
-
-// getRejected
-var rejected = testArray.getRejected(function(a) 
-{ return typeof a === "string"; }); // [1, 2, 3];
-
-// getSplit
-var split = testArray.getSplit(function(a) 
-{ return typeof a === "string"; }); 
- {
-  pass: ["a", "b", "c"],
-  fail: [1, 2, 3]
-} 
-
-// count
-var length = testArray.count(); // 6
-
-// double
-var double = magicArray("a", "b", "c").double(); 
-// Example below
-// ["a", "b", "c"] => ["a", "b", "c", "a", "b", "c"]
-
-// multiply
-var multiplied = magicArray(1, 2, 3).multiply(2); 
-// [2, 4, 6]
-
-// first
-var first = testArray.first(); // [1]
-
-// last
-var last = testArray.last(); // ["c"]
-
-// eq
-var eq = testArray.eq(2); // [3]
-
-Методы могут быть связаны, потому что все они возвращают
-другой экземпляр 
-var testArrayTwo = magicArray(1, 2, 3);
-
-var result = testArrayTwo.double().multiply(2); 
-// [2, 4, 6, 2, 4, 6]
-result.multiply(2).double(); 
-// [4, 8, 12, 4, 8, 12, 4, 8, 12, 4, 8, 12]
-
-testArrayTwo.multiply(2).first().double().double(); 
-// [2, 2, 2, 2];
-
-// См. выше для переменной 'split'.
-split.pass.double(); // ["a", "b", "c", "a", "b", "c"];
-split.fail.double(); // [1, 2, 3, 1, 2, 3];
-
-Также работает с собственными функциями массива
-testArrayTwo.double().filter(function(a){return a === 2;}); 
-// [2, 2];
-*/
-//====================================================
-//                      потом решу
-//====================================================
-
-
-
+//=======================================================
+//=======================================================
+//                    четвертая
+//=======================================================
+//=======================================================
 /*
 https://www.codewars.com/kata/57ced2c1c6fdc22123000316/train/javascript
 
-  (7)                    Numbers to Objects
+  (7)                    Numbers to Objects   (решил)
 
 Вам будет предоставлен массив чисел.
 
@@ -438,10 +388,16 @@ function numObj(s){
 
 
 
+
+//=======================================================
+//=======================================================
+//                    пятая
+//=======================================================
+//=======================================================
 /*
 https://www.codewars.com/kata/56bd9e4b0d0b64eaf5000819/train/javascript
 
-(7)                  Combine objects
+(7)                  Combine objects   (решил)
 
 Ваша задача — написать функцию, которая принимает два 
 или более объектов и возвращает новый объект, 
@@ -527,10 +483,15 @@ function combine(...arg) {
 
 
 
+//=======================================================
+//=======================================================
+//                    шестая
+//=======================================================
+//=======================================================
 /*
 https://www.codewars.com/kata/59418db3f5c394eca80000ef/train/javascript
 
-                        Walk the Object Path
+                        Walk the Object Path  (не решил)
 
 
     Реализуйте метод find, который принимает объект с 
@@ -601,56 +562,3 @@ function find(object, path) {
 // console.log(object['user']['name']['first']);
 // console.log(object('user'));
 // console.log(Object.prototype.hasOwnProperty(object, 'first'));
-
-
-
-
-/*
-https://www.codewars.com/kata/56bc0fc65bdaeb46d800084a/train/javascript
-
-
-(7)                  Math Object Madness
-
-Вы новичок/средний/опытный/старший/профессионал/
-разработчик мирового класса (выбайте), 
-который специализируется на Javascript. 
-
-Однажды ваш непослушный младший брат/сестра/кто-то еще 
-завладевает вашим драгоценным компьютером со всем 
-программным обеспечением и функциями и умудряется 
-полностью уничтожить объект Javascript Math! 
-
-Будучи разработчиком, вы решаете восстановить как можно 
-больше функций.
-
-Цель
-Большинство, если не все, функции встроенного в 
-Javascript объекта Math отключены. 
-
-Ваша цель — восстановить следующее:
-
-
-Math.ceil(x)
-Math.floor(x)
-Math.round(x)
-Math.abs(x)
-Math.max(args[]) (ВНИМАНИЕ: В функцию будет передано 
-    переменное количество аргументов.)
-Math.min(args[]) (ВНИМАНИЕ: В функцию будет передано 
-    переменное количество аргументов.)
-Math.pow(x,y) (вы можете предположить, что показатель 
-    степени всегда положительное целое число)
-
-Вы также можете попытаться исправить другие методы, 
-такие как Math.random() или Math.cos(), но ваш код для 
-других методов не будет протестирован.
-
-*/
-
-
-Math.ceil = function (x) {
-    if(!Number.isInteger(x)) {
-        let str = (x + '').split(/\.\d/g)
-    }
-} 
-console.log((0.12 + '').match(/(?<=\.)\d+/g));
